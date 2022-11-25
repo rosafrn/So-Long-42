@@ -1,17 +1,17 @@
 #ifndef WINDOW_H
 # define WINDOW_H
 
-typedef struct s_winn
+typedef struct s_win
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		height;
 	int		width;
-}		t_winn;
+}		t_win;
 
-typedef struct s_imgg
+typedef struct s_imgl
 {
-	t_winn	win;
+	t_win	win;
 	void	*img_ptr;
 	char	*addr;
 	int		h;
@@ -19,8 +19,9 @@ typedef struct s_imgg
 	int		bpp;
 	int		endian;
 	int		line_len;
-}		t_imgg;
+}		t_imgl;
 
-void *new_program(int w, int h, char *str);
+t_win	new_program(int w, int h, char *str);
+t_imgl	new_img(int w, int h, t_win window);
 
 #endif
