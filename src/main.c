@@ -1,24 +1,23 @@
-#include "../include/minilibx-linux/mlx.h"
-#include "../include/minilibx-linux/mlx_int.h"
-#include "../include/libft/libft.h"
 #include "../include/window.h"
-#include <stdio.h>
 
 int main()
 {
     t_win   window;
-    t_imgl  imgane;
+    t_imgl  image;
 
-    window = new_program(300, 300, "hello\n");
+    window = new_program(1000, 1000, "WHY SO LONG????\n");
     if (!window.win_ptr)
         return (1);
-    imgane = new_img(4, 4, window);
-    ft_memcpy(imgane.addr, "s4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vfs4vf", 16*4);
-    mlx_put_image_to_window (imgane.win.mlx_ptr, imgane.win.win_ptr, imgane.img_ptr, 10, 10);
+    image = new_image(1000, 1000, window);
+    /* Put white pixel */
+	put_pixel_img(image, 150, 150, 0x00FFFFFF);
+	mlx_put_image_to_window (image.win.mlx_ptr, image.win.win_ptr, image.img_ptr, 0, 0);
+    //
+    mlx_hook(window.win_ptr, 17, 0, exit_game, &window);
     mlx_loop(window.mlx_ptr);
     return (0);
 }
-
+/*
 t_win new_program(int w, int h, char *str)
 {
 	t_win window;
@@ -32,7 +31,7 @@ t_win new_program(int w, int h, char *str)
     return (window);
 }
 
-t_imgl	new_img(int w, int h, t_win window)
+t_imgl	new_image(int w, int h, t_win window)
 {
 	t_imgl	image;
 
@@ -44,3 +43,36 @@ t_imgl	new_img(int w, int h, t_win window)
 	image.h = h;
 	return (image);
 }
+
+void	put_pixel_img(t_imgl img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img.addr + (y * img.line_len + x * (img.bpp / 8));
+	*(unsigned int *) dst = color;
+}
+
+int     exit_game(t_win *window)
+{
+        if (window)
+                mlx_destroy_window (window->mlx_ptr, window->win_ptr);
+        exit(EXIT_SUCCESS);
+}
+
+void	draw_square(t_square square, t_imgl img)
+{
+	unsigned short int	i;
+	unsigned short int	j;
+
+	i = 0;
+	while (i < square.size && i + square.y < img.h)
+	{
+		j = 0;
+		while (j < square.size && j + square.x < img.w)
+		{
+			put_pixel_img(img, j + square.x, i + square.y, square.color);
+			j++;
+		}
+		i++;
+	}
+}*/
